@@ -15,8 +15,12 @@ def get_all_trains(
         "fromStationId": from_station_id,
         "toStationId": to_station_id
     }
-    r = requests.get(url, params=params)
-    return r.json()
+    try:
+        r = requests.get(url, params=params)
+        return r.json()
+    except:
+        print("Ошибка")
+    return None
 
 
 def get_all_free_trains(
