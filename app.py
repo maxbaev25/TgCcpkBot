@@ -10,7 +10,8 @@ from db import crud
 from handlers.registry_handler import router as registry_router
 from handlers.info_handler import router as info_router
 from handlers.subs_handler import router as subs_router
-
+from scheduler import configure_scheduler, start_scheduler
+from aiogram.client.session.aiohttp import AiohttpSession
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -27,10 +28,13 @@ async def main():
     dp.include_router(registry_router)
     dp.include_router(info_router)
     dp.include_router(subs_router)
+
     bot = Bot(token=os.getenv("BOT_TOKEN"))
+    # await configure_scheduler(bot=bot)
+    # await start_scheduler()
 
+    bot = Bot(token=os.getenv("BOT_TOKEN"), session=AiohttpSession(proxy=os.getenv("PROXY_URL")))
     dp.startup.register(lambda: asyncio.run(on_startup(dp, bot)))
-
     await dp.start_polling(bot)
 
 

@@ -63,23 +63,25 @@ async def get_all_user_subs_by_user_tg_id_with_join(user_tg_id: int) -> list[Sub
 
 async def get_all_user_subs_by_user_tg_id(user_tg_id: int) -> list[Subscription] | None:
     async with session_factory() as session:
-        user = await session.execute(
+        user_result = await session.execute(
             select(User).where(User.tg_id == user_tg_id)
-        ).scalar()
+        )
+        user = user_result.scalar()
         if not user:
             return None
-        result = await session.execute(
+        subs_result = await session.execute(
             select(Subscription).where(Subscription.user_id == user.id)
         )
-        return result.scalars().all()
+        return subs_result.scalars().all()
 
 
 async def create_sub_by_user_tg_id(
         from_station_id: int, to_station_id: int, origin_date: datetime, user_tg_id: int) -> bool:
     async with session_factory() as session:
-        user = await session.execute(
+        user_result = await session.execute(
             select(User).where(User.tg_id == user_tg_id)
-        ).scalar()
+        )
+        user = user_result.scalar()
         if not user:
             return False
         session.add(Subscription(
