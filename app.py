@@ -29,12 +29,12 @@ async def main():
     dp.include_router(info_router)
     dp.include_router(subs_router)
 
-    bot = Bot(token=os.getenv("BOT_TOKEN"))
-    # await configure_scheduler(bot=bot)
-    # await start_scheduler()
-
     bot = Bot(token=os.getenv("BOT_TOKEN"), session=AiohttpSession(proxy=os.getenv("PROXY_URL")))
-    dp.startup.register(lambda: asyncio.run(on_startup(dp, bot)))
+
+    await configure_scheduler(bot=bot)
+    await start_scheduler()
+
+    # dp.startup.register(lambda: asyncio.run(on_startup(dp, bot)))
     await dp.start_polling(bot)
 
 

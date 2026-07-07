@@ -1,7 +1,7 @@
 from datetime import datetime
 from .models import User, Subscription, Base
 from sqlalchemy import select, update, delete, insert, func
-from . import session_factory, engine
+from . session import session_factory, engine
 
 
 # create if not exists all tables --------------------------------------------------------------------------------------

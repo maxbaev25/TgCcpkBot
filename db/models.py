@@ -1,5 +1,5 @@
 from datetime import datetime
-from sqlalchemy import Integer, String, DateTime, BigInteger, ForeignKey
+from sqlalchemy import Integer, String, DateTime, BigInteger, ForeignKey, Boolean
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -12,6 +12,7 @@ class User(Base):
 
     tg_id: Mapped[int] = mapped_column(Integer, unique=True, index=True)
     reg_date: Mapped[datetime] = mapped_column(DateTime)
+    is_admin: Mapped[bool] = mapped_column(Boolean)
 
 
 class Subscription(Base):
@@ -21,3 +22,11 @@ class Subscription(Base):
     from_station_id: Mapped[int] = mapped_column(BigInteger)
     to_station_id: Mapped[int] = mapped_column(BigInteger)
     origin_date: Mapped[datetime] = mapped_column(DateTime)
+
+
+class Donaters(Base):
+    __tablename__ = "donaters"
+    user_id: Mapped[int] = mapped_column(Integer)
+    plan_id: Mapped[int] = mapped_column(BigInteger)
+    updated_at: Mapped[datetime] = mapped_column(DateTime)
+    expires_at: Mapped[datetime] = mapped_column(DateTime)
