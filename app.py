@@ -17,6 +17,14 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+def get_proxy_url() -> str:
+    if "working_proxies.txt" not in os.listdir():
+        return os.getenv("PROXY_URL")
+    with open("working_proxies.txt") as f:
+        url = f.readline().strip()
+    return url if url.startswith("http") else os.getenv("PROXY_URL")
+
+
 async def on_startup(dp: Dispatcher, bot: Bot):
     logging.info('Starting up the bot...')
     await crud.init_all_tables()
@@ -29,7 +37,7 @@ async def main():
     dp.include_router(info_router)
     dp.include_router(subs_router)
 
-    bot = Bot(token=os.getenv("BOT_TOKEN"), session=AiohttpSession(proxy=os.getenv("PROXY_URL")))
+    bot = Bot(token=os.getenv("BOT_TOKEN"), session=AiohttpSession(proxy=get_proxy_url()))
 
     await configure_scheduler(bot=bot)
     await start_scheduler()
