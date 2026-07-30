@@ -1,7 +1,6 @@
-from datetime import datetime, date
-
+from datetime import datetime
 from aiogram import Router
-from aiogram.filters import Command, CommandStart, CommandObject
+from aiogram.filters import Command, CommandObject
 from aiogram.types import Message
 from db import crud
 
