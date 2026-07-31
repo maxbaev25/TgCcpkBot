@@ -1,7 +1,7 @@
 *Будущая структура проекта:*
 
 *Файлы:*\
-app.py\
+app.py\312
 loader.py\
 ccpk_class.py\
 checking_scheduler.py
