@@ -10,7 +10,7 @@ on:
         logLevel:
           description: "Log Level"
           required: true
-          default: "DEBUG"
+          default: "debug"
 
 jobs:
   build:
